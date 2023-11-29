@@ -2,7 +2,7 @@ import java.util.Random;
 import java.util.Scanner;
 
 public class Weather {
-    int daysInMay = 31;
+    final int daysInMay = 31;
     int[] temp = new int[daysInMay];
     String[] days = new String[daysInMay];
     int[] origTemp = new int[daysInMay];
@@ -11,8 +11,11 @@ public class Weather {
     Weather() {
         randomData();
     }
-    public void wrongInput(){
+    public void wrongInputMenu(){
         System.out.println("välj ett korrekt alternativ, 1-11");
+    }
+    public void wrongInputDays(){
+        System.out.println("välj ett korrekt alternativ, 1-31");
     }
     public void randomData() {
         Random random = new Random();
@@ -40,9 +43,9 @@ public class Weather {
             for (int j = 0; j < daysInMay - i - 1; j++) {
                 if (ascending && temp[j] > temp[j + 1] || !ascending && temp[j] < temp[j + 1]) {
                     // Byt plats på elementen
-                    int tempValue = temp[j];
+                    int tempTemp = temp[j];
                     temp[j] = temp[j + 1];
-                    temp[j + 1] = tempValue;
+                    temp[j + 1] = tempTemp;
 
                     String tempDay = days[j];
                     days[j] = days[j + 1];
@@ -60,11 +63,33 @@ public class Weather {
 
     public void beforeAfter(Scanner scanner) {
         System.out.println("vilken dag gäller det? ");
-        int day = scanner.nextInt() - 1;
-        System.out.println(days[day] + " var det det " + temp[day] + "grader" );
-        System.out.println("Dagen före " + days[day] + " var det den " + days[day - 1] + " och då var det " + temp[day - 1] + "grader" );
-        System.out.println("Dagen efter " + days[day] + " var det den " + days[day + 1] + " och då var det " + temp[day + 1] + "grader" );
-
+        //Startar en while loop för felkorrigering.
+        //sätter running till true.
+        boolean running = true;
+        while (running) {
+            //om scanner har en int.
+            if (scanner.hasNextInt()) {
+                //deklarerar en integer day och tilldelar den ett interger värde från objektet scanner och metoden nextint.
+                //korrigerar inputen med -1 för att synkronisera mot index.
+                int day = scanner.nextInt() - 1;
+                //om man väljer dag 1-31.
+                if (1 <= day && day <= 31) {
+                    System.out.println(days[day] + " var det det " + temp[day] + "grader");
+                    System.out.println("Dagen före " + days[day] + " var det den " + days[day - 1] + " och då var det " + temp[day - 1] + "grader");
+                    System.out.println("Dagen efter " + days[day] + " var det den " + days[day + 1] + " och då var det " + temp[day + 1] + "grader");
+                    running = false;
+                }
+                //om inte 1-31. hämta metoden för felmedelande. och gå tillbaka ett steg i loopen.
+                else {
+                    wrongInputDays();
+                }
+            }
+            //om inte ett heltal. Felmedelande och prova igen.
+            else {
+                wrongInputDays();
+                scanner.next();
+            }
+        }
     }
     public void average() {
         double sum = 0;
@@ -186,18 +211,11 @@ public class Weather {
                     running = false;
                     break;
                 default:
-                    System.out.println("välj ett av alternativen i listan");
+                    weather.wrongInputMenu();
                     break;
 
             }
         }
-        //weather.warmestDay();
-        //weather.coldestDay();
-        //weather.beforeAfter(input);
-        //weather.average();
-        //weather.sortTemperatures(true); // Sortera i stigande ordning
-        //weather.sortTemperatures(false);// Sortera fallande ordning
-        //weather.list(); // Visa den sorterade listan
         System.out.println("avslutar...");
         scanner.close();
     }
