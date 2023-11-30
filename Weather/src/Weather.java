@@ -15,11 +15,11 @@ public class Weather {
     int[] origTemp = new int[daysInMay];
     String[] origDays = new String[daysInMay];
     //En konstruktör för klassen Weather.
-    //När ett nytt objekt skapar i klassen Weather kommer metoden randomData() anropas.
+    //När ett nytt objekt skapas i klassen Weather kommer metoden randomData() anropas.
     Weather() {
         randomData();
     }
-    //Metod för att skicka print vid felkorrigering.
+    //Tre stycken metoder för att skicka prints vid felkorrigering.
     public void wrongInputMenu(){
         System.out.println("välj ett korrekt alternativ, 1-11");
     }
@@ -50,20 +50,29 @@ public class Weather {
     public void list() {
         //For loop. Initieringen börjar på noll. Villkoret är dagar i maj. Iteration +1.
         for (int i = 0; i < daysInMay; i++) {
-            //Skriver ut varje dag
+            //Skriver dag och temperatur för varje dag i maj
             System.out.println(days[i] + " var det: " + temp[i] + "grader");
         }
     }
+    //Skapar metod för att kunna sortera bort temperaturer som understiger det valda värdet. Med parametern scanner.
     public void listHotDays(Scanner scanner) {
+        //deklarerar en boolean variabel och sätter värdet true
         boolean running = true;
+        //En while loop för felkorrigering.
         while (running) {
+            //Print vilken temp
             System.out.println("vilken temp");
+            //Om inmatningen har en integer
             if (scanner.hasNextInt()) {
+                // Deklarerar en variabel tempSort och ger den värdet från inmatningen genom scanner objektet och nextInt metoden.
                 int tempSort = scanner.nextInt();
+                //Om temperaturen är lika med eller större än 10 OCH är mindre eller lika med 24.
                 if (10 <= tempSort && tempSort <= 24) {
                     //For loop. Initieringen börjar på noll. Villkoret är dagar i maj. Iteration +1.
                     for (int i = 0; i < daysInMay; i++) {
+                        //Om temperaturen är lika med eller högre än det valda värdet
                         if (temp[i] >= tempSort) {
+                            //Skriv ut resultatet
                             System.out.println(days[i] + " var det: " + temp[i] + "grader");
                         } //if satsen
                     }//for loopen
@@ -72,7 +81,7 @@ public class Weather {
                 else {
                     wrongInputSort();
                 }//avslutar else
-            }// första if satsen
+            }//första if satsen
             else {
                 System.out.println("måste skriva ett datum i siffror");
                 scanner.next();
@@ -121,7 +130,7 @@ public class Weather {
     public void beforeAfter(Scanner scanner) {
         System.out.println("vilken dag gäller det? ");
         //Startar en while loop för felkorrigering.
-        //Deklarerar running till true.
+        //Deklarerar en bolean running och ger den värdet true.
         boolean running = true;
         while (running) {
             //om scanner har en int.
@@ -131,9 +140,13 @@ public class Weather {
                 int day = scanner.nextInt() - 1;
                 //om man väljer dag 1-31.
                 if (1 <= day && day <= 31) {
+                    //Skriver ut dag och temperatur den dagen man valt
                     System.out.println(days[day] + " var det det " + temp[day] + "grader");
+                    //Skriver ut dag och temperatur dagen innan dagen man valt
                     System.out.println("Dagen före " + days[day] + " var det den " + days[day - 1] + " och då var det " + temp[day - 1] + "grader");
+                    //Skriver ut dag och temperatur dagen efter dagen man valt
                     System.out.println("Dagen efter " + days[day] + " var det den " + days[day + 1] + " och då var det " + temp[day + 1] + "grader");
+                    //Ger running värdet false som stänger loopen
                     running = false;
                 }
                 //Om inte 1-31. Hämta metoden för felmeddelande och gå tillbaka ett steg i loopen.
@@ -148,6 +161,7 @@ public class Weather {
             }
         }
     }
+    //Metod för att räkna ut medel
     public void average() {
         double sum = 0;
         //For loop. Initieringen börjar på noll. Villkoret är dagar i maj. Iteration +1.
@@ -157,26 +171,38 @@ public class Weather {
         double calcSum = sum / daysInMay;
         System.out.println("Medel temperaturen i maj var: " + String.format("%.2f", calcSum) + " grader");
     }
+    //Skapar en metod för att räkna ut varmaste dagen
     public void warmestDay() {
+        //Deklarerar variabeln biggest, med datatypen integer och ger den värdet av första platsen i arrayen temp
         int biggest=temp[0];
+        //Deklarerar variabeln index, med datatypen integer och ger den värdet 0.
         int index = 0;
         //For loop. Initieringen börjar på noll. Villkoret är dagar i maj. Iteration +1.
         for (int i = 0; i < daysInMay; i++) {
+            //Om temperaturen är högre än biggest
             if (temp[i] > biggest) {
+                //Så läggs den in i biggest
                 biggest=temp[i];
+                //sparar vilken plats i arrayen den kallaste temperaturen hittades
                 index = i;
             }
 
         }
         System.out.println("varmaste dagen var den: " + days[index] + " och då var det " + biggest + " grader");
     }
+    //Skapar en metod för att räkna ut kallaste dagen
     public void coldestDay() {
+        //Deklarerar variabeln lowest, med datatypen integer och ger den värdet av första platsen i arrayen temp
         int lowest = temp[0];
+        //Deklarerar variabeln index, med datatypen integer och ger den värdet 0.
         int index = 0;
         //For loop. Initieringen börjar på noll. Villkoret är dagar i maj. Iteration +1.
         for (int i = 0; i < daysInMay; i++) {
+            //Om temperaturen är lägre än lowest
             if (temp[i]<lowest) {
+                //Så läggs den in i lowest
                 lowest=temp[i];
+                //sparar vilken plats i arrayen den kallaste temperaturen hittades
                 index = i;
             }
         }
@@ -200,35 +226,47 @@ public class Weather {
         }
         System.out.println("Mediantemperaturen i maj var: " + (median) + " grader");
     }
+    //Skapar metod för att få fram den vanligast förekommande temperaturen
     public void commonTemp() {
+        //Deklarerar variabeln mostCommonTemp, datatyp integer och ger den värdet från första positionen i arrayen temp.
         int mostCommonTemp = temp[0];
+        //Deklarerar variabeln highestCount, datatyp integer och ger den värdet 0
         int highestCount = 0;
         //For loop. Initieringen börjar på noll. Villkoret är dagar i maj. Iteration +1.
         for (int i = 0; i < daysInMay; i++) {
+            //Deklarerar en variabel count med datatypen integer och tilldelar den värdet 0.
             int count = 0;
+            //For loop. Initieringen börjar på noll. Villkoret är dagar i maj. Iteration +1.
             for (int j = 0; j < daysInMay; j++) {
+                //Om temperaturen är densamma i temp j och i så adderas en till count.
                 if (temp[j] == temp[i]) {
                     count++;
                 }
             }
+            //Om talet på platsen "i" förekom flest gånger så läggs det värdet in i highestCount
             if (count > highestCount) {
                 highestCount = count;
+                //När loopen är avklarad och alla tal har jämförts så ligger nu den vanligast förekommande temperaturen i mostCommonTemp
                 mostCommonTemp = temp[i];
             }
         }
 
-        // Print the most common temperature
+        //Skriver ut den vanligast förekommande temperaturen
         System.out.println("Den mest förekommande temperaturen i maj var: " + mostCommonTemp + " grader");
     }
     public static void main(String[] args) {
+        //initierar ett scanner objekt för att kunna använda metoder inom klassen Scanner
         Scanner scanner = new Scanner(System.in);
+        //Initierar ett weather objekt för att kunna använda metoder inom klassen Weather
         Weather weather = new Weather();
         //deklarerar en variabel running med datatypen boolean och ger den värdet true.
         boolean running = true;
 
         //Initierar en while loop med villkoret att running är true.
         while (running){
+            //Vi börjar med att återställa varje sorteringen till ursprungsvärden genom metoden sortReset.
             weather.sortReset();
+            //Skriver ut och numrerar alla alternativ med förklarande strängar av text.
             System.out.println("\nJasså du är meteorolog! Här har du ett program du kan göra allt möjligt roligt i:");
             System.out.println("Välj några av följande alternativ: \n");
             System.out.println("1. Lista över temperaturerna för varje dag i maj");
@@ -242,6 +280,7 @@ public class Weather {
             System.out.println("9. Sortera bort de dagar som understiger temperaturen du väljer");
             System.out.println("10. Den mest förekommande temperaturen i maj");
             System.out.println("11. Avsluta");
+            //Switch-sats för att hantera menyalternativ
             switch(scanner.next()) {
                 case "1":
                     weather.list();
@@ -278,13 +317,16 @@ public class Weather {
                 case "11":
                     running = false;
                     break;
+                    //Om man inte skriver 1-11 så blir det default. Vilket är ett felmeddelande
                 default:
                     weather.wrongInputMenu();
                     break;
 
             }
         }
+        //Avsluts utskrift
         System.out.println("avslutar...");
+        //Stänger scanner objektet
         scanner.close();
     }
 }
