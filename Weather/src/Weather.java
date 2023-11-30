@@ -1,8 +1,8 @@
-//Importerar paket av classen Random
+//Importerar klassen Random från paketet java.util
 import java.util.Random;
-//Importerar paket av classen Scanner
+//Importerar klassen Scanner från paketet java.util
 import java.util.Scanner;
-//Deklarerar classen Weather
+//Deklarerar klassen Weather
 public class Weather {
     //Deklarerar variabeln daysInMay. Ger den datatypen integer och värdet 31.
     //Gör den även final dvs en konstant så den inte går att ändra.
@@ -130,7 +130,7 @@ public class Weather {
     public void beforeAfter(Scanner scanner) {
         System.out.println("vilken dag gäller det? ");
         //Startar en while loop för felkorrigering.
-        //Deklarerar en bolean running och ger den värdet true.
+        //Deklarerar en boolean running och ger den värdet true.
         boolean running = true;
         while (running) {
             //om scanner har en int.
@@ -139,13 +139,25 @@ public class Weather {
                 //Korrigerar inputen med -1 för att synkronisera mot index.
                 int day = scanner.nextInt() - 1;
                 //om man väljer dag 1-31.
-                if (1 <= day && day <= 31) {
+                if (0 <= day && day <= 30) {
                     //Skriver ut dag och temperatur den dagen man valt
                     System.out.println(days[day] + " var det det " + temp[day] + "grader");
-                    //Skriver ut dag och temperatur dagen innan dagen man valt
-                    System.out.println("Dagen före " + days[day] + " var det den " + days[day - 1] + " och då var det " + temp[day - 1] + "grader");
-                    //Skriver ut dag och temperatur dagen efter dagen man valt
-                    System.out.println("Dagen efter " + days[day] + " var det den " + days[day + 1] + " och då var det " + temp[day + 1] + "grader");
+                    //Skapar en if-sats för om dagen innan man valt före 1a maj så får man ett felmeddelande.
+                    if (0 < day) {
+                        //Skriver ut dag och temperatur dagen innan dagen man valt
+                        System.out.println("Dagen före " + days[day] + " var det den " + days[day - 1] + " och då var det " + temp[day - 1] + "grader");
+                        }
+                        else {
+                        System.out.println("Det finns ingen data innan den 1a Maj");
+                        }
+                    //Skapar en if-sats för om dagen efter dagen man valt är efter 31a maj så får man ett felmeddelande.
+                    if (day < 30) {
+                        //Skriver ut dag och temperatur dagen efter dagen man valt
+                        System.out.println("Dagen efter " + days[day] + " var det den " + days[day + 1] + " och då var det " + temp[day + 1] + "grader");
+                    }
+                    else {
+                        System.out.println("finns ingen data efter 31a Maj");
+                    }
                     //Ger running värdet false som stänger loopen
                     running = false;
                 }
@@ -211,18 +223,19 @@ public class Weather {
     }
     //Skapar metod för att räkna ut medianen.
     public void median() {
-        //Deklarerar integer variabeln median och ger den värdet noll.
-        int median = 0;
-        //Deklarerar variabeln split och tilldelar den ett double värde av daysInMay delat på två.
-        double split = (double) daysInMay /2;
-        //Deklarerar variabeln halfOfDaysInMay och tilldelar den värdet av split avrundat uppåt.
-        int halfOfDaysInMay = (int) Math.ceil(split);
+        //Deklarerar integer variabeln median.
+        double median;
         //Kör sorterings metoden.
         sortTemperatures(true);
-        //For loop. Initieringen börjar på noll. Villkoret är dagar i hälften av dagarna i maj. Iteration +1.
-        for (int i = 0;i < halfOfDaysInMay; i++) {
-            //Medianen blir då i mitten av den sorterade listan.
-            median = temp[i];
+        //Om days in may är ett jämnt tal så är medianen 2dagar
+        //Nu är daysInMay final 31 dagar så denna kommer aldrig användas.
+        if (daysInMay % 2 == 0) {
+            //Så vi tar de 2 dagarna och delar på 2 för att få medianen
+            median = (temp[daysInMay /2 - 1] + temp[daysInMay /2]) / 2.0;
+        }
+        //Är det ett udda tal tar vi bara mitten.
+        else {
+            median = temp[daysInMay /2];
         }
         System.out.println("Mediantemperaturen i maj var: " + (median) + " grader");
     }
@@ -255,7 +268,8 @@ public class Weather {
         System.out.println("Den mest förekommande temperaturen i maj var: " + mostCommonTemp + " grader");
     }
     public static void main(String[] args) {
-        //initierar ett scanner objekt för att kunna använda metoder inom klassen Scanner
+        //Initierar ett scanner objekt för att kunna använda metoder inom klassen Scanner.
+        //Och för att läsa inmatning från användaren via standardinmatningsströmmen (System.in)
         Scanner scanner = new Scanner(System.in);
         //Initierar ett weather objekt för att kunna använda metoder inom klassen Weather
         Weather weather = new Weather();
@@ -264,7 +278,7 @@ public class Weather {
 
         //Initierar en while loop med villkoret att running är true.
         while (running){
-            //Vi börjar med att återställa varje sorteringen till ursprungsvärden genom metoden sortReset.
+            //Vi börjar med att återställa sorteringen till ursprungsvärden genom metoden sortReset.
             weather.sortReset();
             //Skriver ut och numrerar alla alternativ med förklarande strängar av text.
             System.out.println("\nJasså du är meteorolog! Här har du ett program du kan göra allt möjligt roligt i:");
