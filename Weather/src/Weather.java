@@ -40,10 +40,21 @@ public class Weather {
             //Random objektet använder metoden nextInt för att slumpa ett tal 0-14 (15 tal) +10
             temp[i] = random.nextInt(15) + 10;
             //För att synkronisera en dag med en temperatur.
-            days[i] = (i + 1) + ":e maj";
+            //IF-sats för att fixa så att det inte står 1:e 2:e osv.
+            if (i == 0 ||i ==  1 ||i ==  20 ||i ==  21 ||i ==  30) {
+                days[i] = (i + 1) + ":a maj";
+            }
+            else {
+                days[i] = (i + 1) + ":e maj";
+            }
             //Gör samma sak för våra backup arrayer. För reset metoden senare.
             origTemp[i] = random.nextInt(15) + 10;
-            origDays[i] = (i + 1) + ":e maj";
+            if (i == 0 ||i ==  1 ||i ==  20 ||i ==  21 ||i ==  30) {
+                origDays[i] = (i + 1) + ":a maj";
+            }
+            else {
+                origDays[i] = (i + 1) + ":e maj";
+            }
         }
     }
     //Metod för att skriva ut listan av dagar och temperaturer i ordning.
