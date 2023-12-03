@@ -94,7 +94,7 @@ public class Weather {
                 }//avslutar else
             }//första if satsen
             else {
-                System.out.println("måste skriva ett datum i siffror");
+                System.out.println("måste skriva en temperatur i siffror");
                 scanner.next();
             }//avslutar else
 
@@ -292,7 +292,7 @@ public class Weather {
             //Vi börjar med att återställa sorteringen till ursprungsvärden genom metoden sortReset.
             weather.sortReset();
             //Skriver ut och numrerar alla alternativ med förklarande strängar av text.
-            System.out.println("\nJasså du är meteorolog! Här har du ett program du kan göra allt möjligt roligt i:");
+            System.out.println("\nJasså du är meteorolog! Här har du ett program du kan göra allt möjligt roligt i!");
             System.out.println("Välj några av följande alternativ: \n");
             System.out.println("1. Lista över temperaturerna för varje dag i maj");
             System.out.println("2. medeltemperaturen i maj");
